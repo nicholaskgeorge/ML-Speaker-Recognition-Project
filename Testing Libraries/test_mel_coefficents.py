@@ -4,24 +4,17 @@ import librosa.display
 import IPython.display as ipd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import get_window
 
-song = "song.wav"
-scale, sr = librosa.load(song)
-FRAME_SIZE = 2048
-HOP_SIZE = 512
-S_scale = librosa.stft(scale, n_fft=FRAME_SIZE, hop_length=HOP_SIZE)
-print(S_scale.shape)
-Y_scale = np.abs(S_scale) ** 2
-Y_scale.shape
-(1025, 342)
-type(Y_scale[0][0])
-
-def plot_spectrogram(Y, sr, hop_length, y_axis="linear"):
-    plt.figure(figsize=(25, 10))
-    librosa.display.specshow(Y, 
-                             sr=sr, 
-                             hop_length=hop_length, 
-                             x_axis="time", 
-                             y_axis=y_axis)
-    plt.colorbar(format="%+2.f")
-plot_spectrogram(Y_scale, sr, HOP_SIZE)
+song = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\raw_speaker_data\v1\v1_s7.wav"
+signal, sr = librosa.load(song)
+frame_time_length = 0.03 #make each frame 30 ms long
+frame_size = int(sr*frame_time_length)
+mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr, window=get_window("hamming", Nx=frame_size), win_length = frame_size)
+print(mfccs.shape)
+# plt.figure(figsize=(25, 10))
+# librosa.display.specshow(mfccs, 
+#                          x_axis="time", 
+#                          sr=sr)
+# plt.colorbar(format="%+2.f")
+# plt.show()
