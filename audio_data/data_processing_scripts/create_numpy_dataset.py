@@ -4,7 +4,7 @@ import os
 
 def get_mffcc_stuff(data_path):
     # load audio files with librosa
-    signal, sr = librosa.load(full_data_path)
+    signal, sr = librosa.load(data_path)
 
     #get mfccs and all deltas
     mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr)
@@ -12,7 +12,7 @@ def get_mffcc_stuff(data_path):
     delta2_mfccs = librosa.feature.delta(mfccs, order=2)
 
     #make into one data point
-    mfccs_features = np.concatenate((mfccs, delta_mfccs, delta2_mfccs))
+    mfccs_features = mfccs #np.concatenate((mfccs, delta_mfccs, delta2_mfccs))
 
     #flatten data set
     data_point = mfccs_features.flatten()
@@ -41,7 +41,6 @@ label_vector = np.array([])
 
 #load each one
 for file in files:
-    # print(file)
     #get all mfcc data
     full_data_path = os.path.join(raw_data_file_path, file)
     data_point = get_mffcc_stuff(full_data_path)
@@ -54,6 +53,8 @@ for file in files:
     label_vector = np.append(label_vector, label)
 
 # shuffle the data
+np.random.seed(49)
+
 
 # Shuffle the indices
 shuffled_indices = np.random.permutation(len(data_matrix))
@@ -61,8 +62,6 @@ shuffled_indices = np.random.permutation(len(data_matrix))
 # Shuffle the dataset and labels together
 data_matrix = data_matrix[shuffled_indices]
 label_vector = label_vector[shuffled_indices]
-
-print(label_vector)
 
 #save the matrix
 training_data_path = os.path.join(dest_file_path, "speaker_training_data.npy")
