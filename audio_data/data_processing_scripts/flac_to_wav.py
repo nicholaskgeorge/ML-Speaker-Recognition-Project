@@ -2,8 +2,8 @@ import numpy as np
 import os 
 from pydub import AudioSegment
 
-raw_data_file_path = "C:/Users/nicok/Documents/ML-Speaker-Recognition-Project/downloaded_audio/LibriSpeech/dev-clean/174/168635"
-dest_file_path = "C:/Users/nicok/Documents/ML-Speaker-Recognition-Project/audio_data/raw_speaker_data/v3"
+raw_data_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\downloaded_audio\LibriSpeech\dev-clean\652\130737"
+dest_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\raw_speaker_data\v4"
 
 def convert_flac_to_wav(flac_file_path, wav_file_path):
     # Load the FLAC file
@@ -13,8 +13,8 @@ def convert_flac_to_wav(flac_file_path, wav_file_path):
     audio.export(wav_file_path, format="wav")
 
 #loop through folder with files
-speaker_num = 3
-count = 20
+speaker_num = 4
+count = 72
 
 #get names of all files in data folder
 files = []

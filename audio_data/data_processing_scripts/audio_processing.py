@@ -4,7 +4,7 @@ from pydub import AudioSegment
 from math import ceil
 import numpy as np
 
-raw_data_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\raw_speaker_data\v3"
+raw_data_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\raw_speaker_data\v5(Nick)"
 dest_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\all_speakers"
 
 slice_len = 2
