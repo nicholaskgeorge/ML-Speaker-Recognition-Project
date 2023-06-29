@@ -8,8 +8,8 @@ def get_mffcc_stuff(data_path):
 
     #get mfccs and all deltas
     mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr)
-    delta_mfccs = librosa.feature.delta(mfccs)
-    delta2_mfccs = librosa.feature.delta(mfccs, order=2)
+    # delta_mfccs = librosa.feature.delta(mfccs)
+    # delta2_mfccs = librosa.feature.delta(mfccs, order=2)
 
     #make into one data point
     mfccs_features = mfccs #np.concatenate((mfccs, delta_mfccs, delta2_mfccs))
@@ -59,9 +59,9 @@ np.random.seed(49)
 # Shuffle the indices
 shuffled_indices = np.random.permutation(len(data_matrix))
 
-# Shuffle the dataset and labels together
-data_matrix = data_matrix[shuffled_indices]
-label_vector = label_vector[shuffled_indices]
+# # Shuffle the dataset and labels together
+# data_matrix = data_matrix[shuffled_indices]
+# label_vector = label_vector[shuffled_indices]
 
 #save the matrix
 training_data_path = os.path.join(dest_file_path, "speaker_training_data.npy")

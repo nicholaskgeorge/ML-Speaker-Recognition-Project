@@ -2,6 +2,8 @@ import pyaudio
 import numpy as np
 import librosa
 import pickle
+import soundfile as sf
+from time import sleep
 
 CHUNK = 1024  # Number of frames per buffer
 FORMAT = pyaudio.paInt16  # Audio format (16-bit integer)
@@ -19,6 +21,33 @@ stream = p.open(format=FORMAT,
 
 model_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\Model\svm_model.sav"
 model = pickle.load(open(model_path, 'rb'))
+
+noise_audio_path = r'C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\Experimentation\spectral subtraction\noise2.wav'
+noise_audio, sr = librosa.load(noise_audio_path, sr=None)
+noise_stft = librosa.stft(noise_audio)
+
+a_num = 0
+
+def denoise(audio):
+    # Step 3: Compute the Short-Time Fourier Transform (STFT) of both audio clips
+
+    audio_stft = librosa.stft(audio)
+
+    global noise_stft
+    noise_stft = noise_stft[:,:audio_stft.shape[1]]
+
+    # Step 4: Estimate the noise spectrum from the isolated noise STFT
+    noise_spectrum = np.abs(noise_stft)
+
+    # Step 5: Subtract the estimated noise spectrum from the magnitude spectrum of the mixed audio STFT
+    denoised_stft = np.maximum(0, np.abs(audio_stft) - noise_spectrum)
+
+    # Step 6: Reconstruct the denoised audio signal using the modified magnitude spectra and the original phase information
+    denoised_audio = librosa.istft(denoised_stft * np.exp(1j * np.angle(audio_stft)), length = len(audio))
+    return denoised_audio
+
+once = 1
+print("Analyzing backround noise stay silent please.")
 
 while True:
     # Initialize an empty array to store the audio data for each segment
@@ -43,14 +72,30 @@ while True:
         audio_data[start_index:end_index] = audio_array[:samples_to_copy]
 
         samples_captured += samples_to_copy
+    if once:
+        noise_stft = librosa.stft(audio_data)
+        once = 0
+        print("Backround analyzed")
 
-    # Calculate MFCC coefficients for the current segment
-    mfcc = librosa.feature.mfcc(y=audio_data, sr=RATE, n_mfcc=13).flatten().reshape(1,-1)
-    print(model.predict(mfcc))
-
-    # Process the MFCC coefficients
-    # ...
-    # Your code here
+    if(np.abs(audio_data).max()>0.35):
+        print("Someone is speaking guessing who it is")
+        # Calculate MFCC coefficients for the current segment
+        # sf.write(f"live_audio_num__no_correction{a_num}.wav", audio_data, RATE)
+        audio_data = denoise(audio_data)
+        # sf.write(f"live_audio_num_correction{a_num}.wav", audio_data, RATE)
+        a_num += 1
+        
+        mfcc = librosa.feature.mfcc(y=audio_data, sr=RATE, n_mfcc=13).flatten().reshape(1,-1)
+        
+        prediction = model.predict(mfcc)[0]
+        if prediction == 5:
+            print("Hello Nick")
+        elif prediction == 6:
+            print("Hello Pat")
+        else:
+            print("Other")
+        
+    
 
 # Close the audio stream and terminate the pyaudio object
 stream.stop_stream()
