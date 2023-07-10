@@ -6,6 +6,8 @@ def get_mffcc_stuff(data_path):
     # load audio files with librosa
     signal, sr = librosa.load(data_path)
 
+    #normalize the audio
+    signal  = librosa.util.normalize(signal)
     #get mfccs and all deltas
     mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr)
     # delta_mfccs = librosa.feature.delta(mfccs)
@@ -19,7 +21,7 @@ def get_mffcc_stuff(data_path):
 
     return data_point
 
-raw_data_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\all_speakers"
+raw_data_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\augmented_data"
 dest_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset"
 
 #loop through folder with files
@@ -52,6 +54,10 @@ for file in files:
     label = int(file[1:file.find("_")])
     label_vector = np.append(label_vector, label)
 
+# Do normalization
+data_mean = data_matrix.mean(axis=0)
+data_matrix = data_matrix-data_mean
+
 # shuffle the data
 np.random.seed(49)
 
@@ -66,9 +72,11 @@ shuffled_indices = np.random.permutation(len(data_matrix))
 #save the matrix
 training_data_path = os.path.join(dest_file_path, "speaker_training_data.npy")
 training_label_path = os.path.join(dest_file_path, "speaker_training_labels.npy")
+data_mean_path = os.path.join(dest_file_path, "speaker_data_feature_mean.npy")
 
 np.save(training_data_path, data_matrix)
 np.save(training_label_path, label_vector)
+np.save(data_mean_path, data_mean)
 
 
 

@@ -5,6 +5,9 @@ import pickle
 import soundfile as sf
 from time import sleep
 
+mean_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_data_feature_mean.npy"
+mean = np.load(mean_path)
+
 CHUNK = 1024  # Number of frames per buffer
 FORMAT = pyaudio.paInt16  # Audio format (16-bit integer)
 CHANNELS = 1  # Mono audio
@@ -73,6 +76,7 @@ while True:
 
         samples_captured += samples_to_copy
     if once:
+        # sf.write(f"live_audio_backround_test.wav", audio_data, RATE)
         noise_stft = librosa.stft(audio_data)
         once = 0
         print("Backround analyzed")
@@ -80,12 +84,15 @@ while True:
     if(np.abs(audio_data).max()>0.35):
         print("Someone is speaking guessing who it is")
         # Calculate MFCC coefficients for the current segment
-        # sf.write(f"live_audio_num__no_correction{a_num}.wav", audio_data, RATE)
+        sf.write(f"live_audio_num_no_correction_test{a_num}.wav", audio_data, RATE)
         audio_data = denoise(audio_data)
-        # sf.write(f"live_audio_num_correction{a_num}.wav", audio_data, RATE)
+        sf.write(f"live_audio_num_correction_test{a_num}.wav", audio_data, RATE)
         a_num += 1
         
-        mfcc = librosa.feature.mfcc(y=audio_data, sr=RATE, n_mfcc=13).flatten().reshape(1,-1)
+        # normalize the data
+        audio_data = librosa.util.normalize(audio_data)
+        mfcc = librosa.feature.mfcc(y=audio_data, sr=RATE, n_mfcc=13).flatten().reshape(1,-1)-mean
+        
         
         prediction = model.predict(mfcc)[0]
         if prediction == 5:
@@ -93,7 +100,7 @@ while True:
         elif prediction == 6:
             print("Hello Pat")
         else:
-            print("Other")
+            print(prediction)
         
     
 

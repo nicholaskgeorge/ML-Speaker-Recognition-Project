@@ -1,0 +1,17 @@
+# Define the filter coefficients and apply the filter using scipy's lfilter function
+# numerator_coeffs = [0.2, -0.4, 0.6, -0.4, 0.2]  # Example numerator coefficients
+# denominator_coeffs = [1.0, -0.5, 0.3, -0.1]    # Example denominator coefficients
+# filtered_audio = scipy.signal.lfilter(numerator_coeffs, denominator_coeffs, audio)
+
+# # Compute the magnitude spectrum using the FFT
+# magnitude_spectrum = np.abs(librosa.fft(filtered_audio))
+
+# # Generate the frequency axis
+# freq_axis = np.linspace(0, sr/2, len(magnitude_spectrum))
+
+# # Plot the magnitude spectrum
+# plt.plot(freq_axis, magnitude_spectrum)
+# plt.xlabel('Frequency (Hz)')
+# plt.ylabel('Magnitude')
+# plt.title('FFT of Filtered Audio')
+# plt.show()
