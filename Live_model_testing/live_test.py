@@ -84,9 +84,9 @@ while True:
     if(np.abs(audio_data).max()>0.35):
         print("Someone is speaking guessing who it is")
         # Calculate MFCC coefficients for the current segment
-        sf.write(f"live_audio_num_no_correction_test{a_num}.wav", audio_data, RATE)
-        audio_data = denoise(audio_data)
-        sf.write(f"live_audio_num_correction_test{a_num}.wav", audio_data, RATE)
+        
+        # audio_data = denoise(audio_data)
+        # sf.write(f"live_audio_num_correction_test{a_num}.wav", audio_data, RATE)
         a_num += 1
         
         # normalize the data
@@ -95,12 +95,17 @@ while True:
         
         
         prediction = model.predict(mfcc)[0]
+        pred_nam = ''
         if prediction == 5:
             print("Hello Nick")
+            pred_nam = "Nick"
         elif prediction == 6:
             print("Hello Pat")
+            pred_nam = "Pat"
         else:
+            pred_nam = "Other"
             print(prediction)
+        sf.write(f"live_audio_predicted_{pred_nam}_{a_num}.wav", audio_data, RATE)
         
     
 

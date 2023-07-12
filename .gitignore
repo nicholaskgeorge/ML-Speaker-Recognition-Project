@@ -1,3 +1,4 @@
 /audio_data/raw_speaker_data
 /audio_data/processed_data
+/audio_data/numpy_dataset
 /downloaded_audio
