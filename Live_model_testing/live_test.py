@@ -51,7 +51,7 @@ def denoise(audio):
 
 # once = 1
 # print("Analyzing backround noise stay silent please.")
-print("Start speaking")*
+print("Start speaking")
 while True:
     # Initialize an empty array to store the audio data for each segment
     audio_data = np.zeros(SAMPLES_PER_SEGMENT, dtype=np.float32)
@@ -81,7 +81,7 @@ while True:
     #     once = 0
     #     print("Backround analyzed")
 
-    if(np.abs(audio_data).max()>0.35):
+    if(np.abs(audio_data).max()>0.29):
         print("Someone is speaking guessing who it is")
         # Calculate MFCC coefficients for the current segment
         

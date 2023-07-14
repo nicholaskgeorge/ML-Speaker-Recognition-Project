@@ -8,15 +8,15 @@ import os
 
 training_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_data.npy"
 training_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_labels.npy"
-training_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_data.npy"
-training_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_labels.npy"
+testing_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_data.npy"
+testing_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_labels.npy"
 mean_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_data_feature_mean.npy"
 
 #Load all of the data
 X_train = np.load(training_data_set)
 y_train = np.load(training_label_path)
-X_test = np.load(training_data_set)
-y_test = np.load(training_label_path)
+X_test = np.load(testing_data_set)
+y_test = np.load(testing_label_path)
 mean = np.load(mean_path)
 
 
