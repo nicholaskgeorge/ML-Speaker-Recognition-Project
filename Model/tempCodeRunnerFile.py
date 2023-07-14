@@ -1,4 +1,7 @@
-mean_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_data_feature_mean.npy"
-data = np.load(data_path)
-labels = np.load(label_path)
-mean = np.load(mean_path)
+import numpy as np
+from sklearn import svm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import pickle
+import librosa
+import os

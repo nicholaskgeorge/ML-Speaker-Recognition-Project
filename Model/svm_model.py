@@ -1,19 +1,24 @@
 import numpy as np
+import librosa
 from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import pickle
-import librosa
 import os
 
-data_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_data.npy"
-label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_labels.npy"
+training_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_data.npy"
+training_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_labels.npy"
+training_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_data.npy"
+training_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_testing_labels.npy"
 mean_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_data_feature_mean.npy"
-data = np.load(data_path)
-labels = np.load(label_path)
+
+#Load all of the data
+X_train = np.load(training_data_set)
+y_train = np.load(training_label_path)
+X_test = np.load(training_data_set)
+y_test = np.load(training_label_path)
 mean = np.load(mean_path)
 
-X_train,X_test,y_train,y_test = train_test_split(data, labels, test_size=0.35, random_state=90)
 
 
 # Create an SVM classifier
@@ -56,8 +61,8 @@ num_correct = 0
 #load each one
 for file in files:
     #get all mfcc data
-    full_data_path = os.path.join(test_path, file)
-    signal, sr = librosa.load(full_data_path)
+    full_training_data_set = os.path.join(test_path, file)
+    signal, sr = librosa.load(full_training_data_set)
     signal = librosa.util.normalize(signal)
     mfcc = librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=13).flatten().reshape(1,-1)-mean
     if int(clf.predict(mfcc)[0])==6:

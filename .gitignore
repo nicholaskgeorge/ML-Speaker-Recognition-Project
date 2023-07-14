@@ -2,3 +2,4 @@
 /audio_data/processed_data
 /audio_data/numpy_dataset
 /downloaded_audio
+.npy

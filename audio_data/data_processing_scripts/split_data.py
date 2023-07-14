@@ -1,13 +1,29 @@
-import numpy as np
+import librosa
+from get_file_names import get_file_names
+from random import shuffle
+import os
+import soundfile as sf
 
-def split(data_path, label_path, train_split_percent):
-    data = np.load(data_path)
-    labels = np.load(label_path)
-    length = data.shape[0]
-    split_point = int(length*train_split_percent)
-    training_data = data[:split_point]
-    training_labels = labels[:split_point]
-    test_data = data[split_point:]
-    test_labels = labels[split_point:]
+speaker_data_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\all_speakers"
+testing_set_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\testing_set"
+training_set_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\training_set"
 
-    return training_data,training_labels,test_data,test_labels
+files = get_file_names(speaker_data_path)
+shuffle(files)
+
+test_set_frac = 0.35
+
+num_files = len(files)
+middle = int(num_files*(1-test_set_frac))
+train_set = files[:middle]
+test_set = files[middle:]
+print(len(train_set))
+print(len(test_set))
+
+for file in train_set:
+    audio, sr = librosa.load(os.path.join(speaker_data_path, file))
+    sf.write(os.path.join(training_set_path, file), audio, sr)
+
+for file in test_set:
+    audio, sr = librosa.load(os.path.join(speaker_data_path, file))
+    sf.write(os.path.join(testing_set_path, file), audio, sr)

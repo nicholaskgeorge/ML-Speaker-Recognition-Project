@@ -49,9 +49,9 @@ def denoise(audio):
     denoised_audio = librosa.istft(denoised_stft * np.exp(1j * np.angle(audio_stft)), length = len(audio))
     return denoised_audio
 
-once = 1
-print("Analyzing backround noise stay silent please.")
-
+# once = 1
+# print("Analyzing backround noise stay silent please.")
+print("Start speaking")*
 while True:
     # Initialize an empty array to store the audio data for each segment
     audio_data = np.zeros(SAMPLES_PER_SEGMENT, dtype=np.float32)
@@ -75,11 +75,11 @@ while True:
         audio_data[start_index:end_index] = audio_array[:samples_to_copy]
 
         samples_captured += samples_to_copy
-    if once:
-        # sf.write(f"live_audio_backround_test.wav", audio_data, RATE)
-        noise_stft = librosa.stft(audio_data)
-        once = 0
-        print("Backround analyzed")
+    # if once:
+    #     # sf.write(f"live_audio_backround_test.wav", audio_data, RATE)
+    #     noise_stft = librosa.stft(audio_data)
+    #     once = 0
+    #     print("Backround analyzed")
 
     if(np.abs(audio_data).max()>0.35):
         print("Someone is speaking guessing who it is")
@@ -105,7 +105,7 @@ while True:
         else:
             pred_nam = "Other"
             print(prediction)
-        sf.write(f"live_audio_predicted_{pred_nam}_{a_num}.wav", audio_data, RATE)
+        # sf.write(f"live_audio_predicted_{pred_nam}_{a_num}.wav", audio_data, RATE)
         
     
 
