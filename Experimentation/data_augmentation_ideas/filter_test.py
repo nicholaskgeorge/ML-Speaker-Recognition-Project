@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import librosa
 import scipy
 from math import cos
+from math import sin
 import numpy as np
 
 # Set the parameters
@@ -33,12 +34,12 @@ signal2 = np.real(signal)
 # Define the filter coefficients and apply the filter using scipy's lfilter function
 
 
-cut_off_freq = 5000
-radius = (sample_rate/2-cut_off_freq)/(sample_rate/2)
-factor = 1
-numerator_coeffs = factor*np.array([1, 2, 1])  # Example numerator coefficients
-print(-2*radius*cos(np.pi*cut_off_freq))
-denominator_coeffs = [1, -2*radius*cos(2*np.pi*cut_off_freq), radius*radius]    # Example denominator coefficients
+cut_off_freq = 1900
+w = cut_off_freq/22050*np.pi
+alpha = (1-sin(w))/cos(w)
+factor = (1+alpha)/2
+numerator_coeffs = factor*np.array([1, -1])
+denominator_coeffs = [1, -1*alpha]    # Example denominator coefficients
 audio = signal
 filtered_audio = scipy.signal.lfilter(numerator_coeffs, denominator_coeffs, audio)
 

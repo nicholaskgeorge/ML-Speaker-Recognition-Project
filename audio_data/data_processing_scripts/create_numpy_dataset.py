@@ -4,8 +4,9 @@ import os
 
 
 
-training_audio_data_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\augmented_trainning_data"
+
 testing_audio_data_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\testing_set"
+training_audio_data_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\processed_data\augmented_trainning_data"
 dest_file_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset"
 use_mean = True
 def get_mffcc_stuff(data_path):

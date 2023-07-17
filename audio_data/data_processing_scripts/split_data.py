@@ -17,8 +17,6 @@ num_files = len(files)
 middle = int(num_files*(1-test_set_frac))
 train_set = files[:middle]
 test_set = files[middle:]
-print(len(train_set))
-print(len(test_set))
 
 for file in train_set:
     audio, sr = librosa.load(os.path.join(speaker_data_path, file))

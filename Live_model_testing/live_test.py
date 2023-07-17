@@ -85,8 +85,8 @@ while True:
         print("Someone is speaking guessing who it is")
         # Calculate MFCC coefficients for the current segment
         
-        # audio_data = denoise(audio_data)
-        # sf.write(f"live_audio_num_correction_test{a_num}.wav", audio_data, RATE)
+        audio_data = denoise(audio_data)
+        sf.write(f"livce_audio_num_correction_test{a_num}.wav", audio_data, RATE)
         a_num += 1
         
         # normalize the data

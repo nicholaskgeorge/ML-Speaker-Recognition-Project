@@ -1,10 +1,9 @@
-import numpy as np
 import librosa
-from sklearn import svm
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+import numpy as np
 import pickle
 import os
+from sklearn import svm
+from sklearn.metrics import accuracy_score
 
 training_data_set = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_data.npy"
 training_label_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\numpy_dataset\speaker_training_labels.npy"
@@ -50,7 +49,7 @@ for s in speakers:
 
 #Test on laptop mic data
 #get names of all files in data folder
-test_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\Test_audio_pat"
+test_path = r"C:\Users\nicok\Documents\ML-Speaker-Recognition-Project\audio_data\testing_audio\Laptop_base_mic_live_samples"
 files = []
 for file_name in os.listdir(test_path):
     if os.path.isfile(os.path.join(test_path, file_name)):
